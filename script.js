@@ -225,6 +225,7 @@
 
 const students = [
   {
+    id: 1,
     name: "Anar",
     surname: "Aliyev",
     grades: [
@@ -236,10 +237,12 @@ const students = [
         lesson: "Math",
         score: 86,
       },
+      
     ],
     classid: "BP216",
   },
   {
+    id: Math.ceil(Math.random() * 100000),
     name: "Mirana",
     surname: "Miriyeva",
     grades: [
@@ -255,6 +258,7 @@ const students = [
     classid: "BP216",
   },
   {
+    id: Math.ceil(Math.random() * 100000),
     name: "Ayla",
     surname: "Atakisiyeva",
     grades: [
@@ -270,6 +274,7 @@ const students = [
     classid: "BP215",
   },
   {
+    id: Math.ceil(Math.random() * 100000),
     name: "Nicat",
     surname: "Ibrahimzade",
     grades: [
@@ -287,6 +292,7 @@ const students = [
 ];
 const teachers = [
   {
+    
     name: "Emil",
     surname: "Hajizada",
     classid: "BP216",
@@ -319,22 +325,44 @@ function fullName(a) {
   return a.name + " " + a.surname;
 }
 
-let result = students.map((item) => item.grades);
-console.log(result);
-for (let i = 0; i < students.length; i++) {
-  console.log(fullName(students[i]) +" - "+ JSON.stringify(result[i]));
+function createNewItem(arr, name, surname, age) {
+  let newItem = {
+    id: Math.ceil(Math.random() * 100000),
+    name: name,
+    surname: surname,
+    age: Number(age),
+  };
+  arr.push(newItem);
+  
 }
 
-function calculateGPA(student) {
-  const totalScore = students.grades[1].reduce((sum, subject) => sum + subject.score, 0);
-  const gpa = totalScore / students.grades.length;                                                                                            
-  return gpa;
+function listItems(arr) {
+  arr.forEach((x) =>
+    console.log(
+      `| ${x.id} - ${x.name} - ${x.surname} |`
+    )
+  );
 }
 
-students.forEach(student => {
-  const gpa = calculateGPA(student);
-  console.log(`${student.name}'s GPA: ${gpa.toFixed(2)}`);
-});
+function findStudentById(arr, itemId) {
+  return arr.find((x) => x.id === Number(itemId));
+}
+// let result = students.map((item) => item.grades);
+// console.log(result);
+// for (let i = 0; i < students.length; i++) {
+//   console.log(fullName(students[i]) +" - "+ JSON.stringify(result[i]));
+// }
+
+// function calculateGPA(student) {
+//   const totalScore = students.grades[1].reduce((sum, subject) => sum + subject.score, 0);
+//   const gpa = totalScore / students.grades.length;                                                                                            
+//   return gpa;
+// }
+
+// students.forEach(student => {
+//   const gpa = calculateGPA(student);
+//   console.log(`${student.name}'s GPA: ${gpa.toFixed(2)}`);
+// });
 
 let mainMenu = `
 Ne haqqinda melumatlara girmek isteyirsiz?
@@ -351,70 +379,92 @@ let studentsMenu = `Ne etmek isteyirsiz?
 5.geri qayitmaq
 `;
 let studentsInformationMenu = `Ne ile maraqlanirsiz
-1.Butun telebelerin qiymetleri
-2.telebelerin gpa lari
-.geri qayitmaq
+1.Butun telebelerin melumatlari
+2.Butun telebelerin qiymetleri
+3.
+4.ID ye uygun telebe goster
 
 `;
-// let isContinue = true;
-// while (isContinue) {
-//   let userInputForMenu = prompt(mainMenu);
+ let isContinue = true;
+ while (isContinue) {
+   let userInputForMenu = prompt(mainMenu);
 
-//   switch (userInputForMenu) {
-//     case "1":
-//       let userInputForStudents = prompt(studentsMenu);
-//       switch (userInputForStudents) {
-//         case "1":
-//           let informationCategoryForStudents = prompt(studentsInformationMenu);
-//           switch (informationCategoryForStudents) {
-//             case "1":
-//               alert("consola baxin")
-//               let result = students.map((item)=>item.grades)
-//               for (let i = 0; i < students.length; i++) {
-//                 console.log(fullName(students[i])+JSON.stringify(result[i]))
+   switch (userInputForMenu) {
+     case "1":
+       let userInputForStudents = prompt(studentsMenu);
+       switch (userInputForStudents) {
+         case "1":
+           let informationCategoryForStudents = prompt(studentsInformationMenu);
+           switch (informationCategoryForStudents) {
+             case "1":
+              listItems(students);
+               break
+               case "2":
+               alert("consola baxin")
+               let result = students.map((item)=>item.grades)
+               for (let i = 0; i < students.length; i++) {
+                 console.log(fullName(students[i])+JSON.stringify(result[i]))
 
-//               }
-//               case 2:
+               }
+                
+               break
+               case 3:
 
-//               break
-//               break;
 
-//             default:
+               break
 
-//               break;
-//           }
-//           break;
-//         case "2":
-//           break;
+               case "4":
+                let userInputStudentId = prompt("Telebenin id-sini daxil edin");
+                console.log(findStudentById(students, userInputStudentId));
+               break
+             default:
 
-//         case "3":
-//           break;
+               break;
+           }
+           break;
+         case "2":
+          let userInputYeniTelebeAdi = prompt("Telebenin adini daxil edin");
+          let userInputYeniTelebeSoyadi = prompt("Telebenin soyadini daxil edin");
+          let userInputYeniTelebeYasi = prompt("Telebenin yasini daxil edin");
+         
+          createNewItem(
+            students,
+            userInputYeniTelebeAdi,
+            userInputYeniTelebeSoyadi,
+            userInputYeniTelebeYasi,
+            
+          );
+          console.table(students);
+           break;
 
-//         case "4":
-//           break;
+         case "3":
+           break;
 
-//         case "5":
-//           break;
+         case "4":
+           break;
 
-//         default:
-//           alert("duzgun daxil edin");
-//           break;
-//       }
-//       break;
-//     case "2":
-//       break;
-//     case "3":
-//       break;
-//     case "4":
-//       let exit = confirm("eminsiniz?");
-//       if (exit) {
-//         isContinue = false;
-//       }
-//       break;
-// case "":
-//   isContinue=false
-//   break
-//     default:
-//       alert("duzgun daxil edin");
-//   }
-// }
+         case "5":
+           break;
+
+         default:
+           alert("duzgun daxil edin");
+           break;
+       }
+       break;
+     case "2":
+       break;
+     case "3":
+       break;
+     case "4":
+       let exit = confirm("eminsiniz?");
+       if (exit) {
+         isContinue = false;
+       }
+       break;
+ case "":
+   isContinue=false
+   break
+     default:
+       alert("duzgun daxil edin");
+   }
+ }
